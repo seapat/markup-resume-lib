@@ -16,7 +16,8 @@
 
 #let contact(info, uservars) = [
 
-  #let dot_symbol = sym.smash
+  // TODO: make configurable
+  #let dot_symbol = sym.refmark
   // Contact Info
   // Create a list of contact profiles
   #let profiles = (
@@ -88,9 +89,9 @@
       columns: (auto, auto),
       column-gutter: 10pt,
       image(info.personal.photo, width: auto, height: uservars.photo_height),
-      [#content],
+      content,
     )
   } else {
-    align(center)[#content]
+    align(center, content)
   }
 }
