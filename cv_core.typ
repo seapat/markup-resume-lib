@@ -2,11 +2,11 @@
 
 // first define functions for each component then use them to generate the cv
 
-#let make_name_line(entry, date_format) = {
-  let name = if "name" in entry.keys() [#entry.name]
-  name = if "url" in entry.keys() {link(entry.url, name)} else {name}
+#let make_title_line(entry, date_format) = {
+  let title = if "title" in entry.keys() [#entry.title]
+  title = if "url" in entry.keys() {link(entry.url, title)} else {title}
   let date = utils.format_date(entry, date_format)
-  if name != none or date != none [*#name #h(1fr) #date* \ ]
+  if title != none or date != none [*#title #h(1fr) #date* \ ]
 }
 
 #let make_sub_line(entry) = {
@@ -29,11 +29,10 @@
   }
 }
 
-#let make_term_list(entry) = {
-  // let term_list = none
-  if "term_list" in entry.keys() and entry.term_list != none {
+#let make_tabular(entry) = {
+  if "tabular" in entry.keys() and entry.tabular != none {
     let temp_arr = ()
-    for (term, list) in entry.term_list {
+    for (term, list) in entry.tabular {
       temp_arr.push(align(left, eval(term, mode:"markup"))) 
       temp_arr.push(align(left, eval(list.join(", "), mode:"markup")))
     }
@@ -64,7 +63,7 @@
       for entry in data {
         // init content with empty fields
         let content = (
-          "name": none,
+          "title": none,
           "subtitle": none,
           "bullets": none,
           "list": none,
@@ -72,7 +71,7 @@
         )
 
         // Line 1: Institution and Location
-        content.insert("name", make_name_line(entry, date_format))
+        content.insert("title", make_title_line(entry, date_format))
 
         // Line 2: Degree and Date Range
         content.insert("subtitle", make_sub_line(entry))
@@ -83,8 +82,8 @@
         // Part 3: Add text paragraph directly
         content.insert("description", make_description(entry))
 
-        // Part 2: Pairs of name and listing, only collect values
-        content.insert("list", make_term_list(entry))
+        // Part 2: Pairs of title and listing, only collect values
+        content.insert("list", make_tabular(entry))
 
         // Push content of most recent section to our Datastructure/array
         section_elements.push(content)
@@ -93,7 +92,7 @@
       // render entry contents to page, order is important
       [== #section
         #for element in section_elements [
-          #element.name
+          #element.title
           #element.subtitle
           #element.list
           #element.description
