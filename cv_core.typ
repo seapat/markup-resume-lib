@@ -19,13 +19,13 @@
 
 #let make_description(entry) = {
   if "description" in entry.keys() and entry.description != none {
-    eval("[" + entry.description + " \ ]")
+    eval(entry.description, mode:"markup")
   }
 }
 
 #let make_bullet_points(entry) ={
   if "bullets" in entry.keys() and entry.bullets != none {
-    for bp in entry.bullets [- #eval("[" + bp + "]")]
+    for bp in entry.bullets {list(eval(bp, mode:"markup"))}
   }
 }
 
@@ -37,14 +37,14 @@
       temp_arr.push(align(left, term))
       temp_arr.push(align(left, list.join(", ")))
     }
-    let pad_dist = 0.55em
+    let pad_dist = 0.65em
     pad(
-      bottom: -pad_dist,
+      bottom: -pad_dist / 2 ,
       // We always want to have some spacing between the separating line and the first element, there's probably a better way to do this
-      top: if "subtitle" in entry.keys() { -pad_dist } else { 0em },
+      top: if "subtitle" in entry.keys() { -pad_dist } else { -0.05em },
       grid(
         columns: (auto, auto),
-        column-gutter: 10pt,
+        column-gutter: 15pt,
         // 0.65 is the default linesapcing of paragraphs
         row-gutter: 0.65em,
         ..temp_arr,
