@@ -34,8 +34,8 @@
   if "term_list" in entry.keys() and entry.term_list != none {
     let temp_arr = ()
     for (term, list) in entry.term_list {
-      temp_arr.push(align(left, term))
-      temp_arr.push(align(left, list.join(", ")))
+      temp_arr.push(align(left, eval(term, mode:"markup"))) 
+      temp_arr.push(align(left, eval(list.join(", "), mode:"markup")))
     }
     let pad_dist = 0.65em
     pad(
