@@ -75,17 +75,18 @@
     recipient: [
       #cvdata.recipient.name \
       #cvdata.recipient.affiliation \
-      #if "street" in cvdata.recipient [#cvdata.recipient.location.street,] \
-      #if "city" in cvdata.recipient [#cvdata.recipient.city,]
-      #if "regionCode" in cvdata.recipient { cvdata.recipient.regionCode }
-      #if "postalCode" in cvdata.recipient {cvdata.recipient.postalCode} \
-      #if "country" in cvdata.recipient { cvdata.recipient.country }
+      #let location = cvdata.recipient.location
+      #if "street" in location [#location.street,] \
+      #if "city" in location [#location.city,]
+      #if "regionCode" in location { location.regionCode }
+      #if "postalCode" in location {location.postalCode} \
+      #if "country" in location { location.country }
     ],
     date: [#cvdata.personal.location.city, #today.display("[month repr:long] [day padding:none]" + ending + ", [year]") ],
     //  October 28th, 2023
-    subject: [#cvdata.body.subject ],
+    subject: [#cvdata.letter.subject ],
     name: cvdata.personal.name,
     // ending: [Kind regards,],
-    body: [#cvdata.body.text ],
+    body: [#cvdata.letter.text ],
   )
 }
