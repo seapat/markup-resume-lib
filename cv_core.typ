@@ -3,18 +3,18 @@
 // first define functions for each component then use them to generate the cv
 
 #let make_name_line(entry, date_format) = {
-  let name = if "name" in entry.keys() {
-    if "url" in entry.keys() [*#link(entry.url)[#entry.name]*] else [#entry.name]
-  }
-  [*#name #h(1fr) #utils.format_date(entry, date_format)* \ ]
-
+  let name = if "name" in entry.keys() [#entry.name]
+  name = if "url" in entry.keys() {link(entry.url, name)} else {name}
+  let date = utils.format_date(entry, date_format)
+  if name != none or date != none [*#name #h(1fr) * #date\ ]
 }
 
 #let make_sub_line(entry) = {
   let sub = if "subtitle" in entry.keys() {
-    text(style: "italic")[#entry.subtitle]
+    text(style: "italic", entry.subtitle)
   }
-  [#sub #h(1fr) #if "location" in entry.keys() [#entry.location] \ ]
+  let loc = if "location" in entry.keys() {entry.location}
+  if sub != none or loc != none [#sub #h(1fr) #loc \ ]
 }
 
 #let make_description(entry) = {
