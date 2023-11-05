@@ -6,7 +6,7 @@
   let name = if "name" in entry.keys() [#entry.name]
   name = if "url" in entry.keys() {link(entry.url, name)} else {name}
   let date = utils.format_date(entry, date_format)
-  if name != none or date != none [*#name #h(1fr) * #date\ ]
+  if name != none or date != none [*#name #h(1fr) #date* \ ]
 }
 
 #let make_sub_line(entry) = {
