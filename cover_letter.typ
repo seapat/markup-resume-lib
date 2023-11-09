@@ -58,7 +58,7 @@
   name
 }
 
-#let make_letter(cvdata) = {
+#let make_letter(cv_data) = {
   let today = datetime.today()
   let day = today.day()
   let ending = {
@@ -66,27 +66,27 @@
   }
   letter(
     sender: [
-      #cvdata.personal.name,
-      #cvdata.personal.location.street,
-      #cvdata.personal.location.city,
-      #cvdata.personal.location.postalCode,
-      #cvdata.personal.location.country
+      #cv_data.personal.name,
+      #cv_data.personal.location.street,
+      #cv_data.personal.location.city,
+      #cv_data.personal.location.postalCode,
+      #cv_data.personal.location.country
     ],
     recipient: [
-      #cvdata.recipient.name \
-      #cvdata.recipient.affiliation \
-      #let location = cvdata.recipient.location
+      #cv_data.recipient.name \
+      #cv_data.recipient.affiliation \
+      #let location = cv_data.recipient.location
       #if "street" in location [#location.street,] \
       #if "city" in location [#location.city,]
       #if "regionCode" in location { location.regionCode }
       #if "postalCode" in location {location.postalCode} \
       #if "country" in location { location.country }
     ],
-    date: [#cvdata.personal.location.city, #today.display("[month repr:long] [day padding:none]" + ending + ", [year]") ],
+    date: [#cv_data.personal.location.city, #today.display("[month repr:long] [day padding:none]" + ending + ", [year]") ],
     //  October 28th, 2023
-    subject: [#cvdata.letter.subject ],
-    name: cvdata.personal.name,
+    subject: [#cv_data.letter.subject ],
+    name: cv_data.personal.name,
     // ending: [Kind regards,],
-    body: [#cvdata.letter.text ],
+    body: [#cv_data.letter.text ],
   )
 }
