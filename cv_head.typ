@@ -1,8 +1,8 @@
 
 
 // Address
-#let address(info, uservars) = {
-  if uservars.showAddress {
+#let address(info, render_settings) = {
+  if render_settings.show_address {
     [
       #info.personal.location.city,
       // region is optional
@@ -14,7 +14,7 @@
   } else { none }
 }
 
-#let contact(info, uservars) = [
+#let contact(info, render_settings) = [
 
   // TODO: make configurable
   #let dot_symbol = sym.refmark
@@ -22,7 +22,7 @@
   // Create a list of contact profiles
   #let profiles = (
     box(link("mailto:" + info.personal.email)),
-    if uservars.showNumber { box(link("tel:" + info.personal.phone)) } else {},
+    if render_settings.show_phone { box(link("tel:" + info.personal.phone)) } else {},
     if "url" in info.personal.keys() { box(link(info.personal.url)[#info.personal.url.split("//").at(1)]) },
   )
 
@@ -62,13 +62,13 @@
     }
   }
 
-  #if uservars.showPhoto {
+  #if render_settings.show_photo {
     for item in profiles {
       list(marker: dot_symbol)[- #item]
     }
   } else [
     #set par(justify: false)
-    #set text(font: uservars.bodyfont, weight: "medium", size: uservars.fontsize * 1)
+    #set text(font: render_settings.font_body, weight: "medium", size: render_settings.font_size * 1)
     #pad(x: 0em)[
       #profiles.join([#sym.space.en #dot_symbol #sym.space.en])
     ]
@@ -76,19 +76,19 @@
 ]
 
 // Create layout of the title + contact info
-#let make_head(info, uservars) = {
+#let make_head(info, render_settings) = {
   // set page(numbering:"1/1")
   let content = [
     = #info.personal.name
-    #address(info, uservars)
-    #contact(info, uservars)
+    #address(info, render_settings)
+    #contact(info, render_settings)
   ]
 
-  if uservars.showPhoto {
+  if render_settings.show_photo {
     grid(
       columns: (auto, auto),
       column-gutter: 10pt,
-      image(info.personal.photo, width: auto, height: uservars.photo_height),
+      image(info.personal.photo, width: auto, height: render_settings.photo_height),
       content,
     )
   } else {
