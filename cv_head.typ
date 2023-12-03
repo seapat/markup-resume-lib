@@ -1,3 +1,5 @@
+#import "@preview/fontawesome:0.1.0": *
+
 // Address
 #let address(info, render_settings) = {
   if render_settings.show_address {
@@ -19,9 +21,13 @@
   // Contact Info
   // Create a list of contact profiles
   #let profiles = (
-    box(link("mailto:" + info.personal.email)),
-    if render_settings.show_phone { box(link("tel:" + info.personal.phone)) } else {},
-    if "url" in info.personal.keys() { box(link(info.personal.url)[#info.personal.url.split("//").at(1)]) },
+    fa-envelope(size: render_settings.font_size - 4pt) + h(0.5em) + link("mailto:" + info.personal.email),
+    if render_settings.show_phone {
+      fa-phone(size: render_settings.font_size - 4pt) + h(0.5em) + link("tel:" + info.personal.phone)
+    } ,
+    if "url" in info.personal.keys() {
+      fa-link(size: render_settings.font_size - 4pt) + h(0.5em) + link(info.personal.url, info.personal.url.split("//").at(1))
+    },
   )
 
   // Remove any none elements from the list,
@@ -55,23 +61,21 @@
       // grep last element for profile name (if trailing / droppedd successfully)
 
       profiles.push(
-        box(
+          fa-link(size: render_settings.font_size - 3pt) + h(0.5em) +
           link(
             profile.url, 
-            profile.url.trim("https://").trim("www.").trim("mail.")
-      )))
+            {profile.url.trim("https://").trim("www.").trim("mail.")}
+      ))
     }
   }
 
   #if render_settings.show_photo {
-    for item in profiles {
-      list(marker: dot_symbol)[- #item]
-    }
+    for item in profiles {list(marker: none, item)}
   } else [
     #set par(justify: false)
     #set text(font: render_settings.font_body, weight: "medium", size: render_settings.font_size * 1)
     #pad(x: 0em)[
-      #profiles.join([#sym.space.en #dot_symbol #sym.space.en])
+      #profiles.join([#sym.space.en])
     ]
   ]
 ]
