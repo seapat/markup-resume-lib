@@ -8,8 +8,8 @@
   let date_format = "[month repr:short] [year]"
 
   let title = if "title" in entry.keys() [#entry.title]
-  title = if "url" in entry.keys() [
-    #link(entry.url, title) #fa-link(size: render_settings.font_size - 5pt)] 
+  title = if "url" in entry.keys() {
+    link(entry.url, title)+" "+fa-link(size: render_settings.font_size - 5pt)}
     else {title}
   let date = utils.format_date(entry, date_format)
   if title != none or date != none [*#title #h(1fr) #date* \ ]
@@ -29,7 +29,7 @@
   }
 }
 
-#let make_bullet_points(entry) ={
+#let make_bullet_points(entry) = {
   if "bullets" in entry.keys() and entry.bullets != none {
     for bp in entry.bullets {list(eval(bp, mode:"markup"))}
   }

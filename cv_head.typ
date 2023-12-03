@@ -54,9 +54,12 @@
       // ).captures.at(0)
       // grep last element for profile name (if trailing / droppedd successfully)
 
-      profiles.push(box(link(profile.url)[
-        #profile.url.trim("https://").trim("www.").trim("mail.")
-      ]))
+      profiles.push(
+        box(
+          link(
+            profile.url, 
+            profile.url.trim("https://").trim("www.").trim("mail.")
+      )))
     }
   }
 
