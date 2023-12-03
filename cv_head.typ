@@ -1,5 +1,3 @@
-
-
 // Address
 #let address(info, render_settings) = {
   if render_settings.show_address {

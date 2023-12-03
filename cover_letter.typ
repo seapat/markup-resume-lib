@@ -75,13 +75,12 @@
     recipient: [
       #cv_data.recipient.name \
       #cv_data.recipient.affiliation \
-
       #if "location" in cv_data.recipient.keys() [
       #let location = cv_data.recipient.location
-      #if "street" in location [#location.street,] \
-      #if "city" in location [#location.city,]
-      #if "regionCode" in location { location.regionCode }
-      #if "postalCode" in location {location.postalCode} \
+      #if "street" in location [#location.street] \
+      #if "postalCode" in location {location.postalCode}
+      #if "city" in location [#location.city]
+      #if "regionCode" in location { location.regionCode } \
       #if "country" in location { location.country }
       ]
     ],

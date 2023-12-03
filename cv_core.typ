@@ -1,10 +1,16 @@
 #import "utils.typ" as utils
+#import "@preview/fontawesome:0.1.0": *
 
 // first define functions for each component then use them to generate the cv
 
-#let make_title_line(entry, date_format) = {
+#let make_title_line(entry, render_settings) = {
+  let date_format = "[month repr:short] [year]"
+  let date_format = "[month repr:short] [year]"
+
   let title = if "title" in entry.keys() [#entry.title]
-  title = if "url" in entry.keys() {link(entry.url, title)} else {title}
+  title = if "url" in entry.keys() [
+    #link(entry.url, title) #fa-link(size: render_settings.font_size - 5pt)] 
+    else {title}
   let date = utils.format_date(entry, date_format)
   if title != none or date != none [*#title #h(1fr) #date* \ ]
 }
@@ -52,9 +58,8 @@
   }
 }
 
-#let make_cv_core(info) = {
+#let make_cv_core(info, render_settings) = {
   // TODO: make user-configurable while using current as default
-  let date_format = "[month repr:short] [year]"
 
   for (section, data) in info {
     if type(data) == array { // true sections of CV body
@@ -71,20 +76,15 @@
         )
 
         // Line 1: Institution and Location
-        content.insert("title", make_title_line(entry, date_format))
-
+        content.insert("title", make_title_line(entry, render_settings))
         // Line 2: Degree and Date Range
         content.insert("subtitle", make_sub_line(entry))
-
         // Part 1: Bullet points
         content.insert("bullets", make_bullet_points(entry))
-
-        // Part 3: Add text paragraph directly
-        content.insert("description", make_description(entry))
-
         // Part 2: Pairs of title and listing, only collect values
         content.insert("list", make_tabular(entry))
-
+        // Part 3: Add text paragraph directly
+        content.insert("description", make_description(entry))
         // Push content of most recent section to our Datastructure/array
         section_elements.push(content)
       }
