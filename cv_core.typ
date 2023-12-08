@@ -38,9 +38,11 @@
 #let make_tabular(entry) = {
   if "tabular" in entry.keys() and entry.tabular != none {
     let temp_arr = ()
-    for (term, list) in entry.tabular {
-      temp_arr.push(align(left, eval(term, mode:"markup"))) 
-      temp_arr.push(align(left, eval(list.join(", "), mode:"markup")))
+    for item in entry.tabular {
+      let sep = ","
+      if "sep" in item.keys() {sep = item.sep} else {sep = ","}
+      temp_arr.push(align(left, eval(item.term, mode:"markup"))) 
+      temp_arr.push(align(left, eval(item.list.join(sep +" "), mode:"markup")))
     }
     let pad_dist = 0.65em
     pad(
