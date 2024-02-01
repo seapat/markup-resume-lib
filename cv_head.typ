@@ -21,9 +21,9 @@
   // Contact Info
   // Create a list of contact profiles
   #let profiles = (
-    fa-square-envelope(size: render_settings.font_size - 4pt) + h(0.5em) + link("mailto:" + info.personal.email),
+    fa-envelope(size: render_settings.font_size - 4pt) + h(0.5em) + link("mailto:" + info.personal.email),
     if render_settings.show_phone {
-      fa-square-phone(size: render_settings.font_size - 4pt) + h(0.5em) + link("tel:" + info.personal.phone)
+      fa-phone(size: render_settings.font_size - 4pt) + h(0.5em) + link("tel:" + info.personal.phone)
     } ,
     if "url" in info.personal.keys() {
       fa-link(size: render_settings.font_size - 4pt) + h(0.5em) + link(info.personal.url, info.personal.url.split("//").at(1))
