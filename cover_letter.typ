@@ -75,21 +75,21 @@
     recipient: {
       cv_data.recipient.name
       linebreak()
-      if "affiliation" in cv_data.recipient.keys() { cv_data.recipient.affiliation + linebreak() }
+      if "affiliation" in cv_data.recipient.keys() {
+        cv_data.recipient.affiliation + linebreak()
+      }
       if "location" in cv_data.recipient.keys() {
         let location = cv_data.recipient.location
         if "street" in location { location.street + linebreak() }
-        if "postalCode" in location { location.postalCode + " " }
+        if "postalCode" in location { str(location.postalCode) + " " }
         if "city" in location { location.city + linebreak() }
-        if "regionCode" in location { location.regionCode + " " }
+        if "regionCode" in location { str(location.regionCode) + " " }
         if "country" in location { location.country }
       }
     },
     date: [#cv_data.personal.location.city, #today.display("[month repr:long] [day padding:none]" + ending + ", [year]") ],
-    //  October 28th, 2023
     subject: [#cv_data.letter.subject ],
     name: cv_data.personal.name,
-    // ending: [Kind regards,],
     body: [#cv_data.letter.text ],
   )
 }
