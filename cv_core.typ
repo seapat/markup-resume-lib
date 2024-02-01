@@ -2,6 +2,7 @@
 #import "@preview/fontawesome:0.1.0": *
 
 // first define functions for each component then use them to generate the cv
+#let link-blue = rgb("#0000EE")
 
 #let make_title_line(entry, render_settings) = {
   let date_format = "[month repr:short] [year]"
@@ -9,7 +10,8 @@
 
   let title = if "title" in entry.keys() [#entry.title]
   title = if "url" in entry.keys() {
-    link(entry.url, title)+" "+fa-link(size: render_settings.font_size - 5pt)}
+      title+" "+link(entry.url, fa-up-right-from-square(size: render_settings.  font_size - 3pt, fill:link-blue))
+    }
     else {title}
   let date = utils.format_date(entry, date_format)
   if title != none or date != none [*#title #h(1fr) #date* \ ]
@@ -44,9 +46,9 @@
       temp_arr.push(align(left, eval(item.term, mode:"markup"))) 
       temp_arr.push(align(left, eval(item.list.join(sep +" "), mode:"markup")))
     }
-    let pad_dist = 0.65em
+    let pad_dist = (2/3) * 1em
     pad(
-      bottom: -pad_dist / 2 ,
+      bottom: if "description" in entry.keys() {-pad_dist} else {-pad_dist / 6}, // `-pad_dist/6` is trial and error
       // We always want to have some spacing between the separating line and the first element, there's probably a better way to do this
       top: if "subtitle" in entry.keys() { -pad_dist } else { -0.05em },
       grid(
@@ -106,7 +108,7 @@
   }
 }
 
-#let foot_note = {
+#let foot_note(render_settings) = if render_settings.show_footer {
   place(
     bottom + right,
     block[
