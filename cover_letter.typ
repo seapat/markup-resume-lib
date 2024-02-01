@@ -31,7 +31,7 @@
   // Display recipient.
   recipient
 
-  v(0.5cm)
+  v(0.25cm)
 
   // Display date. If there's no date add some hidden
   // text to keep the same spacing.
@@ -41,7 +41,7 @@
     hide("a")
   })
 
-  v(2cm)
+  v(0.5cm) // 2cm
 
   // Add the subject line, if any.
   if subject != none {
@@ -72,18 +72,19 @@
       #cv_data.personal.location.postalCode,
       #cv_data.personal.location.country
     ],
-    recipient: [
-      #cv_data.recipient.name \
-      #cv_data.recipient.affiliation \
-      #if "location" in cv_data.recipient.keys() [
-      #let location = cv_data.recipient.location
-      #if "street" in location [#location.street] \
-      #if "postalCode" in location {location.postalCode}
-      #if "city" in location [#location.city]
-      #if "regionCode" in location { location.regionCode } \
-      #if "country" in location { location.country }
-      ]
-    ],
+    recipient: {
+      cv_data.recipient.name
+      linebreak()
+      if "affiliation" in cv_data.recipient.keys() { cv_data.recipient.affiliation + linebreak() }
+      if "location" in cv_data.recipient.keys() {
+        let location = cv_data.recipient.location
+        if "street" in location { location.street + linebreak() }
+        if "postalCode" in location { location.postalCode + " " }
+        if "city" in location { location.city + linebreak() }
+        if "regionCode" in location { location.regionCode + " " }
+        if "country" in location { location.country }
+      }
+    },
     date: [#cv_data.personal.location.city, #today.display("[month repr:long] [day padding:none]" + ending + ", [year]") ],
     //  October 28th, 2023
     subject: [#cv_data.letter.subject ],
