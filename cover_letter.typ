@@ -1,6 +1,7 @@
 // This function gets your whole document as its `body`
 // and formats it as a simple letter.
 #let letter(
+  // render_settings,
   // The letter's sender, which is display at the top of the page.
   sender: none,
   // The letter's recipient, which is displayed close to the top.
@@ -11,7 +12,7 @@
   subject: none,
   // The name with which the letter closes.
   name: none,
-  ending: [Sincerely,],
+  ending: "Sincerely,",
   // The letter's content.
   body: none,
 ) = {
@@ -50,18 +51,16 @@
 
   // Add body and name.
   body
-
-  v(0.5cm)
-
-  ending
   parbreak()
+  ending
+  v(0.5cm)
   name
 }
 
-#let make_letter(cv_data) = {
+#let make_letter(cv_data, render_settings) = {
   let today = datetime.today()
   let day = today.day()
-  let ending = {
+  let written_number = {
     if day == 1 { "st" } else if day == 2 { "nd" } else if day == 3 { "rd" } else { "th" }
   }
   letter(
@@ -87,9 +86,10 @@
         if "country" in location { location.country }
       }
     },
-    date: [#cv_data.personal.location.city, #today.display("[month repr:long] [day padding:none]" + ending + ", [year]") ],
-    subject: [#cv_data.letter.subject ],
+    date: cv_data.personal.location.city + ", " + today.display("[month repr:long] [day padding:none]" + written_number + ", [year]"),
+    subject: cv_data.letter.subject,
     name: cv_data.personal.name,
-    body: [#cv_data.letter.text ],
+    body: cv_data.letter.text,
+    ending: render_settings.letter_ending,
   )
 }
