@@ -51,7 +51,8 @@
 
   // Add body and name.
   body
-  parbreak()
+    v(0.5cm)
+
   ending
   v(0.5cm)
   name
@@ -86,7 +87,11 @@
         if "country" in location { location.country }
       }
     },
-    date: cv_data.personal.location.city + ", " + today.display("[month repr:long] [day padding:none]" + written_number + ", [year]"),
+    date: cv_data.personal.location.city + ", " +  if "date_string" in render_settings {
+      render_settings.date_string
+    } else {
+       today.display("[month repr:long] [day padding:none]" + written_number + ", [year]")
+      },
     subject: cv_data.letter.subject,
     name: cv_data.personal.name,
     body: cv_data.letter.text,
