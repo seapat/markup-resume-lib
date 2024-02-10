@@ -2,16 +2,15 @@
 
 // Address
 #let address(info, render_settings) = {
-  if render_settings.show_address {
-    [
-      #info.personal.location.city,
+  if render_settings.show_address [
+      #info.personal.location.city 
+      #info.personal.location.postalCode,
       // region is optional
       #if "region" in info.personal.location.keys() [#info.personal.location.region]
       #info.personal.location.country
-      #info.personal.location.postalCode
       #v(-4pt)
     ]
-  } else { none }
+   else { none }
 }
 
 #let contact(info, render_settings) = [
