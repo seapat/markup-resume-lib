@@ -12,7 +12,7 @@
   subject: none,
   // The name with which the letter closes.
   name: none,
-  ending: "Sincerely,",
+  ending: none, // default value set in caller (see below)
   // The letter's content.
   body: none,
 ) = {
@@ -95,6 +95,6 @@
     subject: cv_data.letter.subject,
     name: cv_data.personal.name,
     body: cv_data.letter.text,
-    ending: render_settings.letter_ending,
+    ending: if "letter_ending" in render_settings {render_settings.letter_ending} else {"Sincerely,"},
   )
 }
