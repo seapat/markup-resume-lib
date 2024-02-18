@@ -3,10 +3,11 @@
 // Address
 #let address(info, render_settings) = {
   if render_settings.show_address [
+      #info.personal.location.street, 
       #info.personal.location.city 
       #info.personal.location.postalCode,
       // region is optional
-      #if "region" in info.personal.location.keys() [#info.personal.location.region]
+      #if "region" in info.personal.location.keys() {info.personal.location.region+","}
       #info.personal.location.country
       #v(-4pt)
     ]
