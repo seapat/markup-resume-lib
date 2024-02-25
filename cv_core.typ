@@ -10,9 +10,11 @@
 
   let title = if "title" in entry.keys() [#entry.title]
   title = if "url" in entry.keys() {
-      title+" "+link(entry.url, fa-up-right-from-square(size: render_settings.  font_size - 3pt, fill:link-blue))
-    }
-    else {title}
+    title + " " + link(
+      entry.url,
+      fa-up-right-from-square(size: render_settings. font_size - 3pt, fill: link-blue),
+    )
+  } else { title }
   let date = utils.format_date(entry, date_format)
   if title != none or date != none [*#title #h(1fr) #date* \ ]
 }
@@ -21,36 +23,54 @@
   let sub = if "subtitle" in entry.keys() {
     text(style: "italic", entry.subtitle)
   }
-  let loc = if "location" in entry.keys() {entry.location}
+  let loc = if "location" in entry.keys() { entry.location }
   if sub != none or loc != none [#sub #h(1fr) #loc \ ]
 }
 
 #let make_description(entry) = {
   if "description" in entry.keys() and entry.description != none {
-    eval(entry.description, mode:"markup")
+    eval(entry.description, mode: "markup")
   }
 }
 
 #let make_bullet_points(entry) = {
   if "bullets" in entry.keys() and entry.bullets != none {
-    for bp in entry.bullets {list(eval(bp, mode:"markup"))}
+    for bp in entry.bullets {
+      list(eval(bp, mode: "markup"))
+    }
+  }
+}
+
+#let make_space(entry) = {
+  if "spacer" in entry.keys() and entry.spacer != none {
+    if type(entry.spacer) == int {
+      for _ in range(entry.spacer) {
+        "\n"
+      }
+    } else if entry.spacer == "pagebreak" {
+      pagebreak(
+        // weak=true
+      )
+    }
   }
 }
 
 #let make_tabular(entry) = {
   if "tabular" in entry.keys() and entry.tabular != none {
-    // entry.tabular
-    // type(entry.tabular) + " " + str(entry.tabular.len())
     let temp_arr = ()
-    for (key,value) in entry.tabular.pairs() {
+    for (key, value) in entry.tabular.pairs() {
       let sep = ","
-      if "separator" in entry.tabular.keys() {let sep = entry.tabular.separator} else { let sep = ","}
-      temp_arr.push(align(left, eval(key, mode:"markup"))) 
-      temp_arr.push(align(left, if type(value) == "array" {eval(value.join(sep +" "), mode:"markup")} else {eval(value, mode:"markup")}))
+      if "separator" in entry.tabular.keys() { let sep = entry.tabular.separator } else { let sep = "," }
+      temp_arr.push(align(left, eval(key, mode: "markup")))
+      temp_arr.push(align(left, if type(value) == "array" {
+        eval(value.join(sep + " "), mode: "markup")
+      } else {
+        eval(value, mode: "markup")
+      }))
     }
-    let pad_dist = (2/3) * 1em
+    let pad_dist = (2 / 3) * 1em
     pad(
-      bottom: if "description" in entry.keys() {-pad_dist} else {-pad_dist / 6}, // `-pad_dist/6` is trial and error
+      bottom: if "description" in entry.keys() { -pad_dist } else { -pad_dist / 6 }, // `-pad_dist/6` was determined by trial and error
       // We always want to have some spacing between the separating line and the first element, there's probably a better way to do this
       top: if "subtitle" in entry.keys() { -pad_dist } else { -0.05em },
       grid(
@@ -66,7 +86,6 @@
 
 #let make_cv_core(info, render_settings) = {
   // TODO: make user-configurable while using current as default
-
   for (section, data) in info {
     if type(data) == array { // true sections of CV body
       let section_elements = ()
@@ -91,6 +110,8 @@
         content.insert("list", make_tabular(entry))
         // Part 3: Add text paragraph directly
         content.insert("description", make_description(entry))
+        //Part 4: data defined new lines for spacing
+        content.insert("spacer", make_space(entry))
         // Push content of most recent section to our Datastructure/array
         section_elements.push(content)
       }
@@ -103,6 +124,7 @@
           #element.list
           #element.description
           #element.bullets
+          #element.spacer
           #parbreak()
         ]
       ]
