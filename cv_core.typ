@@ -46,7 +46,7 @@
       let sep = ","
       if "separator" in entry.tabular.keys() {let sep = entry.tabular.separator} else { let sep = ","}
       temp_arr.push(align(left, eval(key, mode:"markup"))) 
-      temp_arr.push(align(left, eval(value.join(sep +" "), mode:"markup")))
+      temp_arr.push(align(left, if type(value) == "array" {eval(value.join(sep +" "), mode:"markup")} else {eval(value, mode:"markup")}))
     }
     let pad_dist = (2/3) * 1em
     pad(
