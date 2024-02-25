@@ -39,12 +39,14 @@
 
 #let make_tabular(entry) = {
   if "tabular" in entry.keys() and entry.tabular != none {
+    // entry.tabular
+    // type(entry.tabular) + " " + str(entry.tabular.len())
     let temp_arr = ()
-    for item in entry.tabular {
+    for (key,value) in entry.tabular.pairs() {
       let sep = ","
-      if "sep" in item.keys() {sep = item.sep} else {sep = ","}
-      temp_arr.push(align(left, eval(item.term, mode:"markup"))) 
-      temp_arr.push(align(left, eval(item.list.join(sep +" "), mode:"markup")))
+      if "separator" in entry.tabular.keys() {let sep = entry.tabular.separator} else { let sep = ","}
+      temp_arr.push(align(left, eval(key, mode:"markup"))) 
+      temp_arr.push(align(left, eval(value.join(sep +" "), mode:"markup")))
     }
     let pad_dist = (2/3) * 1em
     pad(
