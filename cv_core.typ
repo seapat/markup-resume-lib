@@ -5,8 +5,7 @@
 #let link-blue = rgb("#0000EE")
 
 #let make_title_line(entry, render_settings) = {
-  let date_format = "[month repr:short] [year]"
-  let date_format = "[month repr:short] [year]"
+  let date_format = "[month repr:numerical]/[year]"
 
   let title = if "title" in entry.keys() [#entry.title]
   title = if "url" in entry.keys() {
@@ -15,7 +14,7 @@
       fa-up-right-from-square(size: render_settings. font_size - 3pt, fill: link-blue),
     )
   } else { title }
-  let date = utils.format_date(entry, date_format)
+  let date = utils.format_date(entry, date_format, render_settings)
   if title != none or date != none [*#title #h(1fr) #date* \ ]
 }
 
