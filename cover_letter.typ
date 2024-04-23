@@ -15,6 +15,7 @@
   ending: none, // default value set in caller (see below)
   // The letter's content.
   body: none,
+  signature_pic: none,
 ) = {
   // Configure page
   set page(margin: (top: 2cm), numbering: none)
@@ -46,15 +47,15 @@
 
   // Add the subject line, if any.
   if subject != none {
-    pad(right: 10%, strong(subject))
+    pad(right: 10%, strong(subject + 2 * linebreak()))
   }
 
   // Add body and name.
   body
-    v(0.5cm)
+  v(0.5cm)
 
   ending
-  v(0.5cm)
+  if signature_pic != none { image(signature_pic, width: auto, height: 3em) }
   name
 }
 
@@ -66,15 +67,18 @@
   }
   letter(
     sender: [
+      #let order = if "address_order" in render_settings.keys() {render_settings.address_order} else {("street", ",", "city", ",", "postalCode", ",","country")}
       #cv_data.personal.name,
-      #cv_data.personal.location.street,
-      #cv_data.personal.location.city,
-      #cv_data.personal.location.postalCode,
-      #cv_data.personal.location.country
+      #for value in order {
+        if value in cv_data.personal.location.keys() {
+          str(cv_data.personal.location.at(value))
+          } else {
+            value
+          }
+      }
     ],
     recipient: {
-      cv_data.recipient.name
-      linebreak()
+      if "name" in cv_data.recipient.keys() { cv_data.recipient.name + linebreak() }
       if "affiliation" in cv_data.recipient.keys() {
         cv_data.recipient.affiliation + linebreak()
       }
@@ -87,14 +91,15 @@
         if "country" in location { location.country }
       }
     },
-    date: cv_data.personal.location.city + ", " +  if "date_string" in render_settings {
+    date: cv_data.personal.location.city + ", " + if "date_string" in render_settings {
       render_settings.date_string
     } else {
-       today.display("[month repr:long] [day padding:none]" + written_number + ", [year]")
-      },
+      today.display("[month repr:long] [day padding:none]" + written_number + ", [year]")
+    },
     subject: cv_data.letter.subject,
     name: cv_data.personal.name,
     body: cv_data.letter.text,
-    ending: if "letter_ending" in render_settings {render_settings.letter_ending} else {"Sincerely,"},
+    ending: if "letter_ending" in render_settings { render_settings.letter_ending } else { "Sincerely," },
+    signature_pic: if "signature" in cv_data.personal.keys() { cv_data.personal.signature } else { none },
   )
 }

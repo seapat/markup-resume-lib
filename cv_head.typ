@@ -2,16 +2,19 @@
 
 // Address
 #let address(info, render_settings) = {
-  if render_settings.show_address [
-      #info.personal.location.street, 
-      #info.personal.location.city 
-      #info.personal.location.postalCode,
-      // region is optional
-      #if "region" in info.personal.location.keys() {info.personal.location.region+","}
-      #info.personal.location.country
-      #v(-4pt)
-    ]
-   else { none }
+  if render_settings.show_address {
+
+      let order = if "address_order" in render_settings.keys() {render_settings.address_order} else {("street", ",", "city", ",", "postalCode", ",","country")}
+      for value in order {
+        if value in info.personal.location.keys() {
+          str(info.personal.location.at(value))
+          } else {
+            value
+          }
+      }
+
+    v(-4pt)
+  } else { none }
 }
 
 #let contact(info, render_settings) = [
@@ -24,7 +27,7 @@
     fa-envelope(size: render_settings.font_size - 4pt) + h(0.5em) + link("mailto:" + info.personal.email),
     if render_settings.show_phone {
       fa-phone(size: render_settings.font_size - 4pt) + h(0.5em) + link("tel:" + info.personal.phone)
-    } ,
+    },
     if "url" in info.personal.keys() {
       fa-link(size: render_settings.font_size - 4pt) + h(0.5em) + link(info.personal.url, info.personal.url.split("//").at(1))
     },
@@ -60,20 +63,24 @@
       // ).captures.at(0)
       // grep last element for profile name (if trailing / droppedd successfully)
 
-      profiles.push(
-          fa-link(size: render_settings.font_size - 3pt) + h(0.5em) +
-          link(
-            profile.url, 
-            {profile.url.trim("https://").trim("www.").trim("mail.")}
+      profiles.push(fa-link(size: render_settings.font_size - 3pt) + h(0.5em) + link(
+        profile.url,
+        { profile.url.trim("https://").trim("www.").trim("mail.") },
       ))
     }
   }
 
   #if render_settings.show_photo {
-    for item in profiles {list(marker: none, item)}
+    for item in profiles {
+      list(marker: none, item)
+    }
   } else [
     #set par(justify: false)
-    #set text(font: render_settings.font_body, weight: "medium", size: render_settings.font_size * 1)
+    #set text(
+      font: render_settings.font_body,
+      weight: "medium",
+      size: render_settings.font_size * 1,
+    )
     #pad(x: 0em)[
       #profiles.join([#sym.space.en])
     ]
