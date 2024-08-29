@@ -23,13 +23,14 @@
   #let dot_symbol = sym.refmark
   // Contact Info
   // Create a list of contact profiles
+  #let horizontal_space = h(1em)
   #let profiles = (
-    fa-envelope(size: render_settings.font_size - 4pt) + h(0.5em) + link("mailto:" + info.personal.email),
+    fa-envelope(size: render_settings.font_size - 4pt) + horizontal_space + link("mailto:" + info.personal.email),
     if render_settings.show_phone {
-      fa-phone(size: render_settings.font_size - 4pt) + h(0.5em) + link("tel:" + info.personal.phone)
+      fa-phone(size: render_settings.font_size - 4pt) + horizontal_space + link("tel:" + info.personal.phone)
     },
     if "url" in info.personal.keys() {
-      fa-link(size: render_settings.font_size - 4pt) + h(0.5em) + link(info.personal.url, info.personal.url.split("//").at(1))
+      fa-link(size: render_settings.font_size - 4pt) + horizontal_space + link(info.personal.url, info.personal.url.split("//").at(1))
     },
   )
 
@@ -63,7 +64,7 @@
       // ).captures.at(0)
       // grep last element for profile name (if trailing / droppedd successfully)
 
-      profiles.push(fa-link(size: render_settings.font_size - 3pt) + h(0.5em) + link(
+      profiles.push(fa-link(size: render_settings.font_size - 3pt) + horizontal_space + link(
         profile.url,
         { profile.url.trim("https://").trim("www.").trim("mail.") },
       ))
