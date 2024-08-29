@@ -9,9 +9,9 @@
 
   let title = if "title" in entry.keys() [#entry.title]
   title = if "url" in entry.keys() {
-    title + " " + link(
+    title + " - " + link(
       entry.url,
-      fa-up-right-from-square(size: render_settings. font_size - 3pt, fill: link-blue),
+      text("link ", size: render_settings.font_size - 3pt) + fa-arrow-up-right-from-square(size: render_settings.font_size - 5pt, fill: link-blue),
     )
   } else { title }
   let date = utils.format_date(entry, date_format, render_settings)
