@@ -58,13 +58,16 @@
   if "tabular" in entry.keys() and entry.tabular != none {
     let temp_arr = ()
     for (key, value) in entry.tabular.pairs() {
+if key == "columns" {continue};
+
       let sep = ","
-      if "separator" in entry.tabular.keys() { let sep = entry.tabular.separator } else { let sep = "," }
+      if "separator" in entry.tabular.keys() { let sep = entry.tabular.separator }
+
       temp_arr.push(align(left, eval(key, mode: "markup")))
       temp_arr.push(align(left, if type(value) == "array" {
         eval(value.join(sep + " "), mode: "markup")
       } else {
-        eval(value, mode: "markup")
+        eval(str(value), mode: "markup")
       }))
     }
     let pad_dist = (2 / 3) * 1em
@@ -73,8 +76,9 @@
       // We always want to have some spacing between the separating line and the first element, there's probably a better way to do this
       top: if "subtitle" in entry.keys() { -pad_dist } else { -0.05em },
       grid(
-        columns: (auto, auto),
-        column-gutter: 15pt,
+// multiply columns by two because key value are techically their own columns
+        columns: if "columns" in entry.tabular.keys() {2*entry.tabular.columns} else {(auto, auto)},
+        column-gutter: if "columns" in entry.tabular.keys() {5pt} else {15pt},
         // 0.65 is the default linesapcing of paragraphs
         row-gutter: 0.65em,
         ..temp_arr,
