@@ -1,0 +1,10 @@
+- Smart URL parsing
+- Ensure some spacing properties
+- Support for proper citations (i.e. `.bib` files)
+- Support custom icons
+    - `icon` per entry, should use some method to insert icons before each entry title among other places
+    - [example1](https://github.com/duskmoon314/typst-fontawesome), [example2](https://github.com/Bi0T1N/typst-social), [example3](https://github.com/duskmoon314/typst-fontawesome)
+- Use commandline args to provide data directly to the compiler
+    - alleviate the need to write own typst code by providing an universal `main.typ` that takes one or more files as input
+    - commandline arguments are an upcoming/planned feature
+- Custom style for titles, subtitles, etc. (use a lambda / wrapper function)

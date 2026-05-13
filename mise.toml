@@ -1,0 +1,41 @@
+[tools]
+typst = "latest"
+tinymist = "latest"
+typstyle = "latest"
+"cargo:utpm" = "latest"
+
+[vars]
+font_dir = "fonts" # see task for font url declaration
+
+[env]
+TYPST_FONT_PATHS = "{{ config_root }}/{{ vars.font_dir }}"
+
+[tasks.fonts]
+description = "Download project-local fonts"
+alias = "font"
+# Can't set lists as a var atm: https://github.com/jdx/mise/discussions/7992
+run = '''
+{% set font_urls = [
+  "https://github.com/IBM/plex/raw/master/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-Regular.ttf",
+  "https://github.com/IBM/plex/raw/master/packages/plex-serif/fonts/complete/otf/IBMPlexSerif-Regular.otf"
+] %}
+{% if os_family() == "unix" %}
+set -eu
+{% endif %}
+curl -L --create-dirs --output-dir {{ vars.font_dir }} --remote-name-all  {% for url in font_urls %} {{ url }} {% endfor %}
+'''
+
+[tasks.link-local]
+description = "Link this Typst package locally with UTPM"
+tools."cargo:utpm" = "latest"
+run = "utpm project link --force --no-copy" # overwrite and symlink
+
+[tasks.compile]
+description = "Compile resume.typ to resume.pdf"
+wait_for = ["link-local", "fonts"]
+run = "typst compile template/example.typ assets/example.pdf"
+
+[tasks.watch]
+description = "Watch resume.typ and recompile resume.pdf"
+wait_for = ["link-local", "fonts"]
+run = "typst watch template/example.typ assets/example.pdf"

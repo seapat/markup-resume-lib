@@ -9,9 +9,14 @@
 
   let title = if "title" in entry.keys() [#entry.title]
   title = if "url" in entry.keys() {
-    title + " - " + link(
-      entry.url,
-      text("link ", size: render_settings.font_size - 3pt) + fa-arrow-up-right-from-square(size: render_settings.font_size - 5pt, fill: link-blue),
+    (
+      title
+        + " - "
+        + link(
+          entry.url,
+          text("link ", size: render_settings.font_size - 3pt)
+            + fa-arrow-up-right-from-square(size: render_settings.font_size - 5pt, fill: link-blue),
+        )
     )
   } else { title }
   let date = utils.format_date(entry, date_format, render_settings)
@@ -58,7 +63,7 @@
   if "tabular" in entry.keys() and entry.tabular != none {
     let temp_arr = ()
     for (key, value) in entry.tabular.pairs() {
-if key == "columns" {continue};
+      if key == "columns" { continue }
 
       let sep = ","
       if "separator" in entry.tabular.keys() { let sep = entry.tabular.separator }
@@ -76,9 +81,9 @@ if key == "columns" {continue};
       // We always want to have some spacing between the separating line and the first element, there's probably a better way to do this
       top: if "subtitle" in entry.keys() { -pad_dist } else { -0.05em },
       grid(
-// multiply columns by two because key value are techically their own columns
-        columns: if "columns" in entry.tabular.keys() {2*entry.tabular.columns} else {(auto, auto)},
-        column-gutter: if "columns" in entry.tabular.keys() {5pt} else {15pt},
+        // multiply columns by two because key value are techically their own columns
+        columns: if "columns" in entry.tabular.keys() { 2 * entry.tabular.columns } else { (auto, auto) },
+        column-gutter: if "columns" in entry.tabular.keys() { 5pt } else { 15pt },
         // 0.65 is the default linesapcing of paragraphs
         row-gutter: 0.65em,
         ..temp_arr,
@@ -87,10 +92,22 @@ if key == "columns" {continue};
   }
 }
 
+#let make_foot_note(render_settings) = if render_settings.show_footer {
+  place(
+    bottom + right,
+    block[
+      #set text(size: 5pt, font: "Consolas", fill: silver)
+      This document was last updated on #datetime.today().display("[year]-[month]-[day]").
+    ],
+  )
+}
+
+
 #let make_cv_core(info, render_settings) = {
   // TODO: make user-configurable while using current as default
   for (section, data) in info {
-    if type(data) == array { // true sections of CV body
+    if type(data) == array {
+      // true sections of CV body
       let section_elements = ()
 
       for entry in data {
@@ -134,14 +151,3 @@ if key == "columns" {continue};
     } else if type(content) == dictionary { none } // personal information and metadata
   }
 }
-
-#let foot_note(render_settings) = if render_settings.show_footer {
-  place(
-    bottom + right,
-    block[
-      #set text(size: 5pt, font: "Consolas", fill: silver)
-      This document was last updated on #datetime.today().display("[year]-[month]-[day]").
-    ],
-  )
-}
-

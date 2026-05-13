@@ -1,0 +1,18 @@
+[package]
+name = "markup-resume"
+version = "0.0.1"
+compiler = "0.14"
+entrypoint = "./src/cv_core.typ"
+authors = [ "Sean Patrick Klein <https:TODO//.com>"]
+license = "Apache-2.0"
+description = "A flexible curriculum vitae (CV) template using Typst and YAML"
+keywords = ["CV", "Curriculum Vitae", "Resume", "Minimalistic", "YAML", "Data"]
+categories = ["cv"]
+disciplines = []
+repository = "TODO"
+
+
+[template]
+path = "template"
+entrypoint = "example.typ"
+thumbnail = "./assets/application.png"

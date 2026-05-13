@@ -1,0 +1,170 @@
+[personal]
+name = "Joanna Doe"
+# https://pixabay.com/vectors/profile-picture-woman-business-woman-7416279/
+photo = "../assets/application.png"
+email = "jon@somewhere.com"
+phone = "(+01) 111 123456"
+
+[personal.location]
+city = "Here and There"
+region = "NYC"
+postalCode = 19870
+country = "USA"
+street = "Maple street"
+
+[[personal.profiles]]
+network = "LinkedIn"
+username = "Joanna Doe"
+url = "www.linkedin.com/in/joanna-doe"
+
+[[personal.profiles]]
+network = "GitHub"
+username = "Joannadoe"
+url = "www.github.com/joannadoe"
+
+[recipient]
+name = "Awesome Recruiter"
+affiliation = "Awesome company"
+location.street = "Awesome-street 123"
+location.city = "awesome-town"
+location.regionCode = "AW"
+location.postalCode = 123123
+location.country = "awesome-country"
+
+[letter]
+subject = "This Is an example on how the cover letter will look like."
+text = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc mattis enim ut tellus elementum sagittis vitae et. Rhoncus mattis rhoncus urna neque viverra. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Quis commodo odio aenean sed adipiscing diam. Bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida. Pellentesque adipiscing commodo elit at imperdiet dui accumsan sit. Et magnis dis parturient montes nascetur ridiculus. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis. Auctor eu augue ut lectus arcu bibendum at. Leo in vitae turpis massa. Sollicitudin ac orci phasellus egestas tellus.
+
+Adipiscing elit duis tristique sollicitudin nibh sit amet. Accumsan tortor posuere ac ut consequat semper. Ornare massa eget egestas purus viverra. Aenean pharetra magna ac placerat vestibulum lectus. A condimentum vitae sapien pellentesque. Viverra maecenas accumsan lacus vel facilisis volutpat. Vulputate enim nulla aliquet porttitor lacus luctus. Tellus rutrum tellus pellentesque eu tincidunt. Arcu risus quis varius quam quisque. Turpis egestas integer eget aliquet nibh praesent tristique magna sit. Consequat ac felis donec et odio pellentesque diam volutpat. Amet nisl purus in mollis nunc. Turpis egestas maecenas pharetra convallis posuere morbi leo urna. Proin sagittis nisl rhoncus mattis rhoncus. Massa placerat duis ultricies lacus sed turpis tincidunt. A scelerisque purus semper eget duis at tellus. A iaculis at erat pellentesque adipiscing.
+
+Eros donec ac odio tempor orci dapibus. Diam quam nulla porttitor massa id neque aliquam vestibulum morbi. Tristique senectus et netus et malesuada fames. Imperdiet sed euismod nisi porta. Massa id neque aliquam vestibulum morbi. Vehicula ipsum a arcu cursus vitae. Ultrices sagittis orci a scelerisque purus. Orci nulla pellentesque dignissim enim sit amet venenatis urna. Nulla malesuada pellentesque elit eget gravida cum. Non diam phasellus vestibulum lorem sed risus ultricies. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Eget nulla facilisi etiam dignissim. Eu consequat ac felis donec et odio pellentesque diam. Vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Porta lorem mollis aliquam ut porttitor leo a diam. At lectus urna duis convallis convallis tellus. Consequat interdum varius sit amet mattis vulputate. Aliquet bibendum enim facilisis gravida neque. A erat nam at lectus urna duis convallis convallis. Quis ipsum suspendisse ultrices gravida dictum.
+"""
+
+# This starts a section (toml: array of tables)
+# [["This is a Section"]]
+# title = "One entry's title"
+# subtitle = "This is its subtitle in italics"
+# # Urls make the title clickable
+# url = "www.github.com/"
+# location = "A location"
+# startDate = "2022-11-05"
+# endDate = "2023-11-05"
+
+# [["This is a Section"]]
+# # title="Third time's the charm"
+# subtitle = "The title can be omitted but the date will be lonely, unless we omit it as well."
+# # url = we can just omit the url
+# # startDate = lets omit this, now only one date is shown
+# endDate = "2023-11-05"
+# location = "A location"
+# description="*_We can add a text block to each entry and format them with typst syntax_*. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. *Nunc mattis enim ut tellus elementum sagittis vitae et*. Rhoncus mattis rhoncus urna neque viverra. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Quis commodo odio aenean sed adipiscing diam. Bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida. Pellentesque adipiscing commodo elit at imperdiet dui accumsan sit. Et magnis dis parturient montes nascetur ridiculus."
+
+# [["This is a Section"]]
+# title = "We can omit the subtitle or the ending date"
+# # subtitle="bla bla bla"
+# location = "A location"
+# startDate = "2022-11-05"
+# # endDate = We can just omit the endDate to use "Present" instead
+# description="We can have bullet points combined with free text as well as table-like key-value pairs."
+# bullets = [
+#     "we can also have bullet points",
+#     "something else"
+# ]
+# tabular = [
+#     {term="key", list = [
+#         "value1", "value2", "value3"
+#     ]},
+#     {term="hello", list = [
+#         "a", "b", "c"
+#     ]}
+# ]
+
+[[Summary]]
+description = "Dedicated Data Analyst with in-depth knowledge of research methodologies and data visualization. Proven experience modeling structured and unstructured data and working with large data sets."
+
+[[Experience]]
+title = "Wilson Enterprises"
+subtitle = "Data Analyst"
+location = "Charlotte, NC"
+startDate = "2023-05-01"
+bullets = [
+    "Gather data from finance and marketing departments",
+    "Build statistical analysis models from large datasets",
+    "Analyze quantitative data to understand customer behavior",
+    "Create modeling of structured and unstructured data",
+    "Present reports about gathered data to senior management",
+]
+
+[[Experience]]
+title = "Jones and Jenkins"
+subtitle = "Data Analyst"
+location = "Davidson, NC"
+startDate = "2019-04-01"
+endDate = "2020-04-01"
+bullets = [
+    "Created reports using database tools",
+    "Maintained application for tracking customer purchasing trends",
+    "Analyzed market trends resulting in a revenue increase of 20%",
+]
+
+[[Experience]]
+title = "Stream Technologies"
+subtitle = "Data Analyst Intern"
+location = "Wilmington, NC"
+startDate = "2018-06-01"
+endDate = "2019-03-01"
+bullets = [
+    "Input data from customer survey reports",
+    "Helped superiors interpret and compile data sets",
+    "Provided administrative assistance to information technology team",
+]
+
+[[Certification]]
+bullets = [
+    "CompTIA Data+, CompTIA - 2022",
+    "Certified Analytics Professional, Institute for Operations Research and the Management Sciences - 2021",
+]
+
+[[Skills]]
+tabular = [
+    { term = "Programming", list = [
+        "Python",
+        "Java",
+        "SQL",
+        "Javascript",
+        "Typst",
+        "LaTeX",
+        "Nix",
+    ] },
+    { term = "Tools", list = [
+        "Git",
+        "Unix/Linux",
+        "Docker/Podman",
+        "Jupyter Notebook",
+        "Visual Studio Code",
+    ] },
+    { term = "Languages", list = [
+        "English (C1)",
+        "German (Native)",
+        "Italian (A1)",
+    ] },
+]
+
+[[Publications]]
+description = "North, T., and Smith, J. (Forthcoming). “Technology and Classroom Learning in a Mixed Education Space.” _Journal of Adolescent Psycholog_, vol. 12."
+
+[[Publications]]
+description = "Willis, A., North, T., and Smith, J. (2019). “The Behavior of Learning Disabled Adolescents in the Classroom.” _Journal of Educational Psychology_, volume 81, 120-125."
+
+[[Theses]]
+title = "Bachelor Degree in Computer Science"
+location = "Awesome Uni"
+startDate = "2019-04-01"
+endDate = "2019-06-30"
+subtitle = "Awesome topic"
+tabular = [
+  {term= "Supervisors", list = ["Awesome Professor"]},
+  {term= "Institutions", list = ["Awesome uni, Awesome institute"]}
+]
+description = "Awesome description about the topics of this work. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc mattis enim ut tellus elementum sagittis vitae et. "
